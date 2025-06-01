@@ -1,0 +1,5 @@
+*-dev.properties
+*-dev.yml
+.DS_Store
+.idea
+target
