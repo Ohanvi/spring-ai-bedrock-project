@@ -50,6 +50,7 @@ public class SpringAiApplication {
 
 	@Bean
 	McpSyncClient mcpSyncClient(){
+
 		var mcp = McpClient
 				.sync(HttpClientSseClientTransport.builder("http://localhost:8081").build())
 				.build();
@@ -62,13 +63,11 @@ public class SpringAiApplication {
 						  McpSyncClient mcpSyncClient,
 						  DogRepository dogRepository/*,
 						  VectorStore vectorStore*/) {
-		dogRepository.findAll().forEach(dog -> {
+		/*dogRepository.findAll().forEach(dog -> {
 			var document = new Document("id: %s, name: %s, description: %s"
 					.formatted(dog.id(), dog.name(), dog.description()));
-			/*vectorStore.add(List.of(document));*/
-		});
-
-
+			*//*vectorStore.add(List.of(document));*//*
+		});*/
 
 		var system = """
 				you are an AI powered assistant to help people adopt a dog from the adoption
@@ -77,10 +76,10 @@ public class SpringAiApplication {
 				""";
 		return builder
 				.defaultSystem(system)
+
 				.defaultToolCallbacks(new SyncMcpToolCallbackProvider(mcpSyncClient))
 				.build();
 	}
-
 
 }
 
@@ -130,7 +129,7 @@ class ChatClientController {
 		/*this.questionAnswerAdvisor = new QuestionAnswerAdvisor(vectorStore);*/
 	}
 
-	@GetMapping("/{user}/inquire")
+	@GetMapping("/{user}/{VENDOR}/inquire")
 	String inquire(@PathVariable("user") String user,
 				   @RequestParam String question){
 
@@ -150,6 +149,7 @@ class ChatClientController {
 				.call()
 				.content();
 	}
+
 
 	// Define endpoints for dog operations
 }
